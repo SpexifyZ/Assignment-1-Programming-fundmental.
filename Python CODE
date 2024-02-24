@@ -1,0 +1,130 @@
+import enum
+class Type(enum.Enum):
+    Economy = 1
+    Business = 2
+
+# Passenger information
+class Passenger:
+    def __init__(self, fullName="", passportNUM=""):
+        self.__fullName = fullName
+        self.__passportNUM = passportNUM
+
+    def setName(self, fullName):
+        self.__fullName = fullName
+
+    def getName(self):
+        return self.__fullName
+
+    def setPassportNumber(self, passportNUM):
+        self.__passportNUM = passportNUM
+
+    def getPassportNumber(self):
+        return self.__passportNUM
+
+# Flight information
+class Flight:
+    def __init__(self, flightNUM="", departure="", destination="", departure_time=""):
+        self.__flightNUM = flightNUM
+        self.__departure = departure
+        self.__destination = destination
+        self.__departure_time = departure_time
+
+    def setFlightNumber(self, flightNUM):
+        self.__flightNUM= flightNUM
+    def getFlightNumber(self):
+        return self.__flightNUM
+
+    def setDeparture(self, departure):
+        self.__departure = departure
+
+    def getDeparture(self):
+        return self.__departure
+
+    def setDestination(self, destination):
+        self.__destination = destination
+
+    def getDestination(self):
+        return self.__destination
+
+    def setDepartureTime(self, departure_time):
+        self.__departure_time = departure_time
+
+    def getDepartureTime(self):
+        return self.__departure_time
+
+# Ticket information
+class Ticket:
+    def __init__(self, ticketID="", type=Type.Economy, price=300, seat="", window=False, passenger=None, flight=None):
+        self.__ticketID = ticketID
+        self.__type = type
+        self.__price = price
+        self.__seat = seat
+        self.__window = window
+        self.__passenger = passenger
+        self.__flight = flight
+
+    def setID(self, ticketID):
+        self.__ticketID = ticketID
+
+    def getID(self):
+        return self.__ticketID
+
+    def setType(self, type):
+        self.__type = type
+
+    def getType(self):
+        return self.__type
+
+    def setPrice(self, price):
+        self.__price = price
+
+    def getPrice(self):
+        return self.__price
+
+    def setSeat(self, seat):
+        self.__seat = seat
+
+    def getSeat(self):
+        return self.__seat
+
+    def setWindow(self, window):
+        self.__window = window
+
+    def getWindow(self):
+        return self.__window
+
+    def setPassenger(self, passenger):
+        self.__passenger = passenger
+
+    def getPassenger(self):
+        return self.__passenger
+
+    def setFlight(self, flight):
+        self.__flight = flight
+
+    def getFlight(self):
+        return self.__flight
+
+    def applyDiscount(self, discountPercentage):
+        self.__price -= (discountPercentage * self.__price)
+
+# Boarding Pass
+class BoardingPass:
+    def __init__(self, ticket):
+        self.__ticket = ticket
+
+    def generateBoardingPassDetails(self):
+        details = f"Boarding Pass for {self.__ticket.getPassenger().getName()}\n" \
+                  f"Passport Number: {self.__ticket.getPassenger().getPassportNumber()}\n" \
+                  f"Flight: {self.__ticket.getFlight().getFlightNumber()} from {self.__ticket.getFlight().getDeparture()} to {self.__ticket.getFlight().getDestination()}\n" \
+                  f"Departure Time: {self.__ticket.getFlight().getDepartureTime()}\n" \
+                  f"Seat: {self.__ticket.getSeat()} - {'Window' if self.__ticket.getWindow() else 'Aisle'}\n" \
+                  f"Class: {'Economy' if self.__ticket.getType() == Type.Economy else 'Business'}\n"
+        return details
+
+passenger = Passenger("James Smith", "Z51561612")
+flight = Flight("NA4321", "Chicago", "New YORK JGK", "06-12-2020 11:40")
+ticket = Ticket(ticketID="5A6BCD78", type=Type.Business, price=1275.99, seat="09A", window=True, passenger=passenger, flight=flight)
+boarding_pass = BoardingPass(ticket)
+
+print(boarding_pass.generateBoardingPassDetails())
